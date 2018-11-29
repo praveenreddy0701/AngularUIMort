@@ -1,0 +1,106 @@
+<div class="row">
+
+  <div class="col-sm-12">
+    <h1 class="mortgageHeader text-center">ING Mortgage Calculator</h1>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-sm-12 col-md-6">
+
+    <form (ngSubmit)="onSubmit()" #mortgageForm="ngForm">
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <label class="mortgageLabel" for="income">Annual Income</label>
+          <input type="number" class="col-sm-3 pull-right" name="quantity" min="1000" max="10000000" [(ngModel)]="model.income">
+          <input type="range" min="1000" max="1000000" value="20000" class="slider form-control" id="income" required [(ngModel)]="model.income"
+            name="name" #income="ngModel">
+          <div class="pull-left">{{1000 | currency:'EUR'}}</div>
+          <div class="pull-right">{{ 10000000 | currency:'EUR'}}</div>
+          <div [hidden]="income.valid || income.pristine" class="alert alert-danger">
+            Income is required
+          </div>
+          <div *ngIf="model.income < 1000" class="alert alert-danger"> 
+              Minimum required number is 1000.
+         </div>	
+           
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <label for="fixPeriod" class="pull-left">Fixed Interest Rate Period</label>
+          <input type="number" min="1" max="5" class="form-control" id="fixPeriod" required [(ngModel)]="model.fixedInterestRatePeriod" name="fixPeriod"
+            #fixPeriod="ngModel">
+          <div [hidden]="fixPeriod.valid || fixPeriod.pristine" class="alert alert-danger">
+            Fixed Interest Rate Period is required
+          </div>
+          <div *ngIf="(model.fixedInterestRatePeriod > model.tenure)" class="alert alert-danger">
+            Fixed Rate Period should be less than Tenure
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <label for="homeValue">Home Value</label>
+          <input type="text" class="form-control" id="homeValue" required [(ngModel)]="model.homeValue" name="homeValue" #homeValue="ngModel">
+          <div [hidden]="homeValue.valid || homeValue.pristine" class="alert alert-danger">
+            Home Value is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <label for="loanValue">Loan Value</label>
+          <input type="text" class="form-control" id="loanValue" required [(ngModel)]="model.loanValue" name="loanValue" #loanValue="ngModel">
+          <div [hidden]="loanValue.valid || loanValue.pristine" class="alert alert-danger">
+            Loan Value is required
+          </div>
+          <div *ngIf="(model.loanValue > (4 * model.income))" class="alert alert-danger">
+            Mortgage loan should not exceed 4 times of annual income
+          </div>
+          <div *ngIf="(model.loanValue > model.homeValue)" class="alert alert-danger">
+            Mortgage loan should not exceed home value
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <label for="loanTenure">Loan Tenure</label>
+          <input type="number" min="1" max="30" class="form-control" id="loanTenure" required [(ngModel)]="model.tenure" name="loanTenure"
+            #loanTenure="ngModel">
+          <div [hidden]="loanTenure.valid || loanTenure.pristine" class="alert alert-danger">
+            Loan Tenure is required
+          </div>
+          <div *ngIf="model.tenure < 1" class="alert alert-danger"> 
+            Minimum required number is 1.
+       </div>	
+       <div *ngIf="model.tenure > 30" class="alert alert-danger"> 
+            Maximum number can be 30.
+       </div> 
+         
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="((!mortgageForm.form.valid) || validateForm())">Submit</button>
+      
+    </form>
+
+
+    <div id="mortgageErrorAlert">
+    <ngb-alert *ngIf="mortgageError" type="danger" (close)="mortgageError = flase"> Please try after some time</ngb-alert>
+  </div>
+  </div>
+
+
+  <div class="col-sm-12 col-md-6">
+      <div *ngIf="submitted">
+        <app-amount-breakup [chartLabels]="chartLabels" [chartData]="chartData" [chartType]="chartType" [checkResponse]="mortgageResponse"></app-amount-breakup>
+      </div>
+    </div>
+  
+
+</div>

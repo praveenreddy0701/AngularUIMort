@@ -1,0 +1,66 @@
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: orange;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: orange;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color:none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
+
+.mortgageHeader {
+    color: #071b50;
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+}
+
+label {
+    color: #000;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#mortgageErrorAlert {
+    margin-top: 1rem;
+}
+
+
